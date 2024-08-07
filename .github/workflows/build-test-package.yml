@@ -72,9 +72,3 @@ jobs:
 
       - name: Package JAR
         run: mvn package
-
-      - name: Upload JAR artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: my-java-app
-          path: target/*.jar  # Adjust this path if your JAR is located elsewhere
