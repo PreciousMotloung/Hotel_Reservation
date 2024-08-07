@@ -16,9 +16,13 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
+          distribution: 'temurin'  
 
-      - name: Build and Package with Maven
+      - name: Build with Maven
         run: mvn clean package
+
+      - name: Test with Maven
+        run: mvn test
 
       - name: Package JAR
         run: mvn package
