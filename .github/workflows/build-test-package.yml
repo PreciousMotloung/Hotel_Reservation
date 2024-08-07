@@ -6,8 +6,15 @@ on:
       - master
 
 jobs:
-  build-and-test:
+  checkout:
     runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+  setup-java:
+    runs-on: windows-latest
+    needs: checkout
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -16,13 +23,53 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin'  
+          distribution: 'temurin'
+
+  build:
+    runs-on: windows-latest
+    needs: setup-java
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
       - name: Build with Maven
         run: mvn clean package
 
+  test:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
       - name: Test with Maven
         run: mvn test
 
+  package:
+    runs-on: windows-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
       - name: Package JAR
         run: mvn package
+
