@@ -7,59 +7,90 @@ import com.preciousmotloung.hotel.model.Reservation;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ReservationService
-{
+/**
+ * Service class for managing reservations.
+ */
+public class ReservationService {
     private ReservationDAO reservationDAO;
 
-    //Constructor initializes the DAO implementation
+    /**
+     * Constructs a ReservationService with a ReservationDAO.
+     *
+     * @throws SQLException if there is a database access error.
+     */
     public ReservationService() throws SQLException {
         this.reservationDAO = new ReservationDAOImpl();
     }
 
-    //Helper method to check if a room is available
-    private boolean isRoomAvailable(int roomNumber) throws Exception
-    {
+    /**
+     * Checks if a room is available for reservation.
+     *
+     * @param roomNumber the room number to check.
+     * @return true if the room is available, false otherwise.
+     * @throws Exception if there is an error during the operation.
+     */
+    private boolean isRoomAvailable(int roomNumber) throws Exception {
         List<Reservation> reservations = reservationDAO.getAllReservation();
-
-        for(Reservation reservation:reservations)
-        {
-            if(reservation.getRoomNumber() == roomNumber){
-                return false; //Room is already booked
+        for (Reservation reservation : reservations) {
+            if (reservation.getRoomNumber() == roomNumber) {
+                return false;
             }
         }
-        return true;// Room is available
+        return true;
     }
 
-    //Method to make a reservation, ensuring room availability
-    public void makeReservation(Reservation reservation) throws Exception
-    {
-        if(isRoomAvailable(reservation.getRoomNumber())){
+    /**
+     * Makes a reservation if the room is available.
+     *
+     * @param reservation the reservation to make.
+     * @throws Exception if the room is already booked or if there is an error during the operation.
+     */
+    public void makeReservation(Reservation reservation) throws Exception {
+        if (isRoomAvailable(reservation.getRoomNumber())) {
             reservationDAO.addReservation(reservation);
-        }else {
+        } else {
             throw new Exception("Room is already booked");
         }
     }
 
-    public Reservation viewReservation(int reservationId) throws Exception
-    {
+    /**
+     * Retrieves a reservation by its ID.
+     *
+     * @param reservationId the ID of the reservation to retrieve.
+     * @return the reservation if found.
+     * @throws Exception if there is an error during the operation.
+     */
+    public Reservation viewReservation(int reservationId) throws Exception {
         return reservationDAO.getReservation(reservationId);
     }
 
-    public List<Reservation> viewAllReservation() throws Exception
-    {
+    /**
+     * Retrieves all reservations.
+     *
+     * @return a list of all reservations.
+     * @throws Exception if there is an error during the operation.
+     */
+    public List<Reservation> viewAllReservation() throws Exception {
         return reservationDAO.getAllReservation();
     }
 
-    public void modifyReservation(Reservation reservation) throws Exception
-    {
+    /**
+     * Modifies an existing reservation.
+     *
+     * @param reservation the reservation to modify.
+     * @throws Exception if there is an error during the operation.
+     */
+    public void modifyReservation(Reservation reservation) throws Exception {
         reservationDAO.updateReservation(reservation);
     }
 
-    public void deleteReservation(int reservation) throws Exception
-    {
-        reservationDAO.deleteReservation(reservation);
+    /**
+     * Deletes a reservation by its ID.
+     *
+     * @param reservationId the ID of the reservation to delete.
+     * @throws Exception if there is an error during the operation.
+     */
+    public void deleteReservation(int reservationId) throws Exception {
+        reservationDAO.deleteReservation(reservationId);
     }
-
-
-
 }

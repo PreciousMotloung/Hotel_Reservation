@@ -9,9 +9,9 @@ public class ReservationTest {
 
     private Reservation reservation;
     private final int reservationId = 1;
-    private final String guestName = "John Doe";
+    private final String guestName = "Precious Motloung";
     private final int roomNumber = 101;
-    private final String contactNumber = "0123456789";
+    private final String contactNumber = "0637478561";
     private final Timestamp reservationDate = Timestamp.valueOf("2024-08-05 10:00:00");
 
     @Before
@@ -43,7 +43,7 @@ public class ReservationTest {
 
     @Test
     public void testSetGuestName() {
-        String newGuestName = "Jane Doe";
+        String newGuestName = "Precious Motloung";
         reservation.setGuestName(newGuestName);
         assertEquals(newGuestName, reservation.getGuestName());
     }
@@ -67,7 +67,7 @@ public class ReservationTest {
 
     @Test
     public void testSetContactNumber() {
-        String newContactNumber = "0987654321";
+        String newContactNumber = "0637478561";
         reservation.setContactNumber(newContactNumber);
         assertEquals(newContactNumber, reservation.getContactNumber());
     }
